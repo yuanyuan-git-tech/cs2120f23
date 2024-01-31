@@ -11,7 +11,10 @@ def comp4 {α: Type} : (α → α) → (α → α)
 def compn {α: Type} : Nat → (α → α)  → (α → α)
 | (Nat.zero), f => λ α => α
 | (Nat.succ n'), f => λ α =>  f (compn n' f α)
--- (compn n' f ∘ f) α
+
+def compn' {α: Type} : Nat → (α → α)  → (α → α)
+| Nat.zero, f => λ α => α
+| (Nat.succ n'), f =>  λ α => (f ∘ compn' n' f) α
 
 #eval (compn 5 Nat.succ) 0
 
