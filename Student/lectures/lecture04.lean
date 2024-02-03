@@ -5,18 +5,23 @@ def comp2 {α: Type} : (α → α) → (α → α)
 
 -- apply4
 def comp4 {α: Type} : (α → α) → (α → α)
-| f => λ α =>  (f ∘ f ∘ f ∘ f) α
+-- | f => λ a =>  (f ∘ f ∘ f ∘ f) a
+| f => λ (a: α) =>  (f ∘ f ∘ f ∘ f) a
 
 
 def compn {α: Type} : Nat → (α → α)  → (α → α)
-| (Nat.zero), f => λ α => α
-| (Nat.succ n'), f => λ α =>  f (compn n' f α)
+| (Nat.zero), _ => λ a => a
+| (Nat.succ n'), f => λ a =>  f (compn n' f a)
 
 def compn' {α: Type} : Nat → (α → α)  → (α → α)
-| Nat.zero, f => λ α => α
-| (Nat.succ n'), f =>  λ α => (f ∘ compn' n' f) α
+| Nat.zero, _ => λ a => a
+| (Nat.succ n'), f => f ∘ compn' n' f
 
-#eval (compn 5 Nat.succ) 0
+def my_comp {α β γ: Type} : (β → γ) → (α → β) → (α → γ)
+-- | g, f => g ∘ f
+| g, f => fun a => g (f a)
+
+#eval (compn' 5 Nat.succ) 0
 
 #check(@List)
 
